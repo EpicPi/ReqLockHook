@@ -1,30 +1,32 @@
 #!/bin/bash
-echo $*
 
+# Flatten args by expanding cli input
+ARGS=()
+for arg in $@; do 
+    ARGS+=("$arg")
+done
+
+# Populate REQ_FILE and LOCK_FILE
 POSITIONAL=()
-while [[ $# -gt 0 ]]; do
-    op="$1"
-
-    case $op in
+END=${#ARGS[@]} # end = length of flat args
+for ((i=0;i<END;i++)); do
+    case ${ARGS[$i]} in
     --req)
-        REQ_FILE="$2"
-        shift # past argument
-        shift # past value
+        REQ_FILE=${ARGS[($i+1)]}
+        i=$i+1
         ;;
     --lock)
-        LOCK_FILE="$2"
-        shift # past argument
-        shift # past value
+        LOCK_FILE=${ARGS[($i+1)]}
+        i=$i+1
         ;;
     *)
-        POSITIONAL=(${POSITIONAL[@]} "$1")
-        shift # past argument
+        POSITIONAL+=(${ARGS[$i]})
         ;;
     esac
 done
 
-echo "REQ_FILE"  = ${REQ_FILE}
-echo "LOCK_FILE" = ${LOCK_FILE}
+echo "REQ_FILE"  = $REQ_FILE
+echo "LOCK_FILE" = $LOCK_FILE
 
 FOUND_REQ=false
 FOUND_LOCK=false
@@ -43,7 +45,7 @@ echo FOUND_LOCK $FOUND_LOCK
 RED='\033[0;31m'
 
 
-if [ $FOUND_REQ == true ] && [ $FOUND_LOCK == true ]; then
-    printf "${RED}Requirements file modified but no lock file modified. Please generate a new $LOCK_FILE"
+if [ $FOUND_REQ == true ] && [ $FOUND_LOCK == false ]; then
+    printf "${RED}Requirements file modified but no lock file modified. Please generate a new $LOCK_FILE \n"
     exit 1
 fi
