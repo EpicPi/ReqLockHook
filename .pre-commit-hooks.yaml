@@ -1,0 +1,7 @@
+- id: "req-lock"
+  name: "Request Lock Hook"
+  description: "Yell if requirements file has changed but lock file hasn't"
+  entry: run-hook.sh
+  language: script
+  types: [text]
+  args: [--example1, --example2]
