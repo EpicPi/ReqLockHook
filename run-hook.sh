@@ -37,8 +37,9 @@ for file in ${POSITIONAL[@]}; do
 done
 
 RED='\033[0;31m'
+NC='\033[0m' # No Color
 
 if [ $FOUND_REQ == true ] && [ $FOUND_LOCK == false ]; then
-    printf "${RED}Requirements file modified but no lock file modified. Please generate a new $LOCK_FILE \n"
+    printf "${RED}Requirements file modified but no lock file modified. Please generate a new $LOCK_FILE \n${NC}"
     exit 1
 fi
