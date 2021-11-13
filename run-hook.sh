@@ -25,9 +25,6 @@ for ((i=0;i<END;i++)); do
     esac
 done
 
-echo "REQ_FILE"  = $REQ_FILE
-echo "LOCK_FILE" = $LOCK_FILE
-
 FOUND_REQ=false
 FOUND_LOCK=false
 
@@ -39,11 +36,7 @@ for file in ${POSITIONAL[@]}; do
     fi
 done
 
-echo FOUND_REQ $FOUND_REQ
-echo FOUND_LOCK $FOUND_LOCK
-
 RED='\033[0;31m'
-
 
 if [ $FOUND_REQ == true ] && [ $FOUND_LOCK == false ]; then
     printf "${RED}Requirements file modified but no lock file modified. Please generate a new $LOCK_FILE \n"
