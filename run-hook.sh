@@ -1,4 +1,5 @@
 #!/bin/bash
+echo $*
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]; do
